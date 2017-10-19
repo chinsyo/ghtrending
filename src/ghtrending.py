@@ -3,15 +3,15 @@
 __author__ = 'Chinsyo'
 __version__ = '0.0.2'
 
+import sys
 import time
 import argparse
-import sys
+
 import requests
 from lxml import etree
 
 if sys.version > '3':
     from urllib.parse import urljoin
-
 else:
     from urlparse import urljoin
 
