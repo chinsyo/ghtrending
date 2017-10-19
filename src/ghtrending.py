@@ -36,7 +36,8 @@ def _print_separateline():
     print('-' * 60)
 
 
-def _xpath_firstornull(tags):
+def _xpath_textornull(el, stmt):
+    tags = el.xpath(stmt)
     return tags[-1] if len(tags) else '<null>'
 
 
@@ -45,11 +46,11 @@ def _gettrending_repository(html):
     _print_sectiontitle('Top {} Github Trending Repository'.format(len(repo_list)))
 
     for index, repo in enumerate(repo_list):
-        today = _xpath_firstornull(repo.xpath('.//svg[@class="octicon octicon-star"]/parent::node()/text()'))
-        name = _xpath_firstornull(repo.xpath('.//div[contains(@class, "col-9")]/h3/a/@href'))
-        desc = _xpath_firstornull(repo.xpath('.//div[@class="py-1"]/p/text()'))
-        star = _xpath_firstornull(repo.xpath('.//svg[contains(@aria-label, "star")]/parent::node()/text()'))
-        fork = _xpath_firstornull(repo.xpath('.//svg[contains(@aria-label, "fork")]/parent::node()/text()'))
+        today = _xpath_textornull(repo, './/svg[@class="octicon octicon-star"]/parent::node()/text()')
+        name = _xpath_textornull(repo, './/div[contains(@class, "col-9")]/h3/a/@href')
+        desc = _xpath_textornull(repo, './/div[@class="py-1"]/p/text()')
+        star = _xpath_textornull(repo, './/svg[contains(@aria-label, "star")]/parent::node()/text()')
+        fork = _xpath_textornull(repo, './/svg[contains(@aria-label, "fork")]/parent::node()/text()')
 
         _print_separateline()
         print("* No.{} {} ({})".format(index + 1, name.strip()[1:], today.strip()))
@@ -65,8 +66,8 @@ def _gettrending_developers(html):
     for index, developer in enumerate(developers):
         _print_separateline()
         name = developer.xpath('.//div[@class="mx-2"]/h2/a/text()')[0]
-        repo = _xpath_firstornull(developer.xpath('.//span[contains(@class, "repo-snipit-name")]/span/text()'))
-        desc = _xpath_firstornull(developer.xpath('.//span[contains(@class, "repo-snipit-description")]/text()'))
+        repo = _xpath_textornull(developer, './/span[contains(@class, "repo-snipit-name")]/span/text()')
+        desc = _xpath_textornull(developer, './/span[contains(@class, "repo-snipit-description")]/text()')
         print('* No.{} {}'.format(index + 1, name.strip()))
         print('* repo: {}'.format(repo.strip()))
         print('* desc: {}'.format(desc.strip()))
