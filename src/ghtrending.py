@@ -1,15 +1,15 @@
-#! /bin/env python3
 # coding: utf-8
-
-__author__ = 'Chinsyo'
-__version__ = '0.0.1'
 
 import time
 import argparse
-from urllib.parse import urljoin
 
 import requests
 from lxml import etree
+
+try:
+    from urllib.parse import urljoin
+except ImportError:
+    from urlparse import urljoin
 
 GHTRENDING_ROOT_URL = 'http://github.com/trending/'
 GHTRENDING_SINCE = {'today', 'weekly', 'monthly'}
@@ -20,6 +20,7 @@ headers = {
     'Accept': "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
     'Accept-Encoding': 'gzip',
 }
+
 
 def _print_sectiontitle(title):
     print('=' * 60)
@@ -36,27 +37,24 @@ def _xpath_firstornull(tags):
 
 
 def _gettrending_repository(html):
-    
     repo_list = html.xpath('//ol[@class="repo-list"]/li')
     _print_sectiontitle('Top {} Github Trending Repository'.format(len(repo_list)))
 
     for index, repo in enumerate(repo_list):
-        
         today = _xpath_firstornull(repo.xpath('.//svg[@class="octicon octicon-star"]/parent::node()/text()'))
         name = _xpath_firstornull(repo.xpath('.//div[contains(@class, "col-9")]/h3/a/@href'))
         desc = _xpath_firstornull(repo.xpath('.//div[@class="py-1"]/p/text()'))
         star = _xpath_firstornull(repo.xpath('.//svg[contains(@aria-label, "star")]/parent::node()/text()'))
         fork = _xpath_firstornull(repo.xpath('.//svg[contains(@aria-label, "fork")]/parent::node()/text()'))
-        
+
         _print_separateline()
-        print(f"* No.{index+1} {name.strip()[1:]} ({today.strip()})")
-        print(f"* star: {star.strip()} \tfork: {fork.strip()}")
-        print(f"* desc: {desc.strip()}")
+        print('* No.{} {} ({})'.format(index + 1, name.strip()[1:], today.strip()))
+        print('* star: {} \tfork: {}'.format(star.strip(), fork.strip()))
+        print('* desc: {}'.format(desc.strip()))
     _print_separateline()
 
 
 def _gettrending_developers(html):
-
     developers = html.xpath('//ol[@class="list-style-none"]/li')
     _print_sectiontitle('Top {} Github Trending Developers'.format(len(developers)))
 
@@ -65,9 +63,9 @@ def _gettrending_developers(html):
         name = developer.xpath('.//div[@class="mx-2"]/h2/a/text()')[0]
         repo = _xpath_firstornull(developer.xpath('.//span[contains(@class, "repo-snipit-name")]/span/text()'))
         desc = _xpath_firstornull(developer.xpath('.//span[contains(@class, "repo-snipit-description")]/text()'))
-        print(f'* No.{index+1} {name.strip()}')
-        print(f'* repo: {repo.strip()}')
-        print(f'* desc: {desc.strip()}')
+        print('* No.{} {}'.format(index + 1, name.strip()))
+        print('* repo: {}'.format(repo.strip()))
+        print('* desc: {}'.format(desc.strip()))
     _print_separateline()
 
 
@@ -77,13 +75,13 @@ def main():
     assert args.since in GHTRENDING_SINCE
 
     params = {'since': args.since} if (args.since is not 'today') else None
-    
+
     url = GHTRENDING_ROOT_URL
     url = urljoin(url, GHTRENDING_QTYPE[args.qtype])
     url = urljoin(url, args.lang)
 
     request = requests.get(url, headers=headers, params=params)
-    request.encoding='utf-8'
+    request.encoding = 'utf-8'
     assert request.status_code == 200
 
     html = etree.HTML(request.text)
@@ -94,8 +92,11 @@ def main():
 
 
 ARGS = argparse.ArgumentParser(description='Github Trending')
-ARGS.add_argument('-q', '--qtype', dest='qtype', default=0, action='store', type=int, help='Setting the query type, 0 for repository, 1 for developers')
-ARGS.add_argument('-s', '--since', dest='since', default='today', action='store', type=str, help='Setting the since today/weekly/monthly')
+ARGS.add_argument('-q', '--qtype', dest='qtype', default=0, action='store', type=int,
+                  help='Setting the query type, 0 for repository, 1 for developers')
+ARGS.add_argument('-s', '--since', dest='since', default='today', action='store', type=str,
+                  help='Setting the since today/weekly/monthly')
 ARGS.add_argument('-l', '--lang', dest='lang', action='store', type=str, help='Specity language')
+
 if __name__ == '__main__':
     main()
