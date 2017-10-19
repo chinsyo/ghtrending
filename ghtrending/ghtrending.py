@@ -1,8 +1,5 @@
 # coding: utf-8
 
-__author__ = 'Chinsyo'
-__version__ = '0.0.2'
-
 import sys
 import time
 import argparse
