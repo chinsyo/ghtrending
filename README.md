@@ -14,5 +14,6 @@
 
 ## TODO
 
-* install via pip
+* ~~install via pip~~
+
 
