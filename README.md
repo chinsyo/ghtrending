@@ -9,18 +9,22 @@
 ![developers](./screenshot/developers.png)
 
 ## INSTALL
-    // module (recommend)
-    pip3 install ghtrending
-    
-    // source
-    git clone https://github.com/chinsyo/ghtrending.git && cd ghtrending
+```shell
+// module (recommend)
+pip3 install ghtrending
+
+// source
+git clone https://github.com/chinsyo/ghtrending.git && cd ghtrending
+```
 
 ## USAGE
-    // module (recommend)
-    python3 -m ghtrending.ghtrending
-    
-    // source
-    python3 ghtrending/ghtrending.py
+```shell
+// module (recommend)
+python3 -m ghtrending.ghtrending
+
+// source
+python3 ghtrending/ghtrending.py
+```
 
 ## TODO
 
