@@ -29,4 +29,6 @@ python3 ghtrending/ghtrending.py
 ## TODO
 
 * ~~install via pip~~
-* oop
+* ~~oop~~
+* JSON output
+
