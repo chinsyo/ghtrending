@@ -29,10 +29,8 @@ def _print_sectiontitle(title):
     print(time.strftime('%Y-%m-%d', time.localtime()), title)
     _print_separateline('=')
 
-
 def _print_separateline(separator='-'):
     print(separator * 60)
-
 
 def _xpath_textornull(el, stmt):
     tags = el.xpath(stmt)
