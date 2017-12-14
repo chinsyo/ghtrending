@@ -7,6 +7,7 @@
 ![help](./screenshot/help.png)
 ![repository](./screenshot/repository.png)
 ![developers](./screenshot/developers.png)
+![json](./screenshot/json.png)
 
 ## INSTALL
 ```shell
