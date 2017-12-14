@@ -30,5 +30,5 @@ python3 ghtrending/ghtrending.py
 
 * ~~install via pip~~
 * ~~oop~~
-* JSON output
+* ~~JSON output~~
 
