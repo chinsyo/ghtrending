@@ -24,33 +24,44 @@ headers = {
     'Accept-Encoding': 'gzip',
 }
 
+
 def _print_sectiontitle(title):
     _print_separateline('=')
     print(time.strftime('%Y-%m-%d', time.localtime()), title)
     _print_separateline('=')
 
+
 def _print_separateline(separator='-'):
     print(separator * 60)
+
 
 def _xpath_textornull(el, stmt):
     tags = el.xpath(stmt)
     return tags[-1] if len(tags) else '<null>'
 
+
 class GHEncoder(JSONEncoder):
     def default(self, o):
         return o.__dict__
 
+
 class GHRepo(object):
     def __init__(self, html):
-        self.today = _xpath_textornull(html, './/svg[@class="octicon octicon-star"]/parent::node()/text()').strip()
-        self.name = _xpath_textornull(html, './/div[contains(@class, "col-9")]/h3/a/@href').strip()
-        self.desc = _xpath_textornull(html, './/div[@class="py-1"]/p/text()').strip()
-        self.star = _xpath_textornull(html, './/svg[contains(@aria-label, "star")]/parent::node()/text()').strip()
-        self.fork = _xpath_textornull(html, './/svg[contains(@aria-label, "fork")]/parent::node()/text()').strip()
+        self.today = _xpath_textornull(
+            html, './/svg[@class="octicon octicon-star"]/parent::node()/text()').strip()
+        self.name = _xpath_textornull(
+            html, './/div[contains(@class, "col-9")]/h3/a/@href').strip()
+        self.desc = _xpath_textornull(
+            html, './/div[@class="py-1"]/p/text()').strip()
+        self.star = _xpath_textornull(
+            html, './/svg[contains(@aria-label, "star")]/parent::node()/text()').strip()
+        self.fork = _xpath_textornull(
+            html, './/svg[contains(@aria-label, "fork")]/parent::node()/text()').strip()
 
     def __str__(self):
         description = ""
-        description += "* 🌍 No.{} {} ({})".format(self.index, self.name[1:], self.today)
+        description += "* 🌍 No.{} {} ({})".format(self.index,
+                                                  self.name[1:], self.today)
         description += "\n"
         description += "* 🌟 star: {} \t🍴 fork: {}".format(self.star, self.fork)
         description += "\n"
@@ -69,8 +80,10 @@ class GHRepo(object):
 class GHUser(object):
     def __init__(self, html):
         self.name = html.xpath('.//div[@class="mx-2"]/h2/a/text()')[0].strip()
-        self.repo = _xpath_textornull(html, './/span[contains(@class, "repo-snipit-name")]/span/text()').strip()
-        self.desc = _xpath_textornull(html, './/span[contains(@class, "repo-snipit-description")]/text()').strip()
+        self.repo = _xpath_textornull(
+            html, './/span[contains(@class, "repo-snipit-name")]/span/text()').strip()
+        self.desc = _xpath_textornull(
+            html, './/span[contains(@class, "repo-snipit-description")]/text()').strip()
 
     def __str__(self):
         description = ""
@@ -107,7 +120,6 @@ class GHClient(object):
     def _getcontent(self):
         assert self.qtype < len(GHTRENDING_QTYPE)
         assert self.since in GHTRENDING_SINCE
-
         params = {'since': self.since} if (self.since is not 'today') else None
 
         url = GHTRENDING_ROOT_URL
@@ -123,7 +135,8 @@ class GHClient(object):
 
     def _parse_trending_repository(self, html):
         repo_list = html.xpath('//ol[@class="repo-list"]/li')
-        _print_sectiontitle('Top {} Github Trending Repository'.format(len(repo_list)))
+        _print_sectiontitle(
+            'Top {} Github Trending Repository'.format(len(repo_list)))
 
         repos = []
         for index, repo in enumerate(repo_list):
@@ -134,15 +147,14 @@ class GHClient(object):
             else:
                 _print_separateline()
                 print(r)
-
         if self.json:
             print(json.dumps(repos, cls=GHEncoder, indent=4))
-            
 
     def _parse_trending_developers(self, html):
         developers = html.xpath('//ol[@class="list-style-none"]/li')
-        _print_sectiontitle('Top {} Github Trending Developers'.format(len(developers)))
-        
+        _print_sectiontitle(
+            'Top {} Github Trending Developers'.format(len(developers)))
+
         users = []
         for index, developer in enumerate(developers):
             u = GHUser(developer)
@@ -152,7 +164,6 @@ class GHClient(object):
             else:
                 _print_separateline()
                 print(u)
-
         if self.json:
             print(json.dumps(users, cls=GHEncoder, indent=4))
 
@@ -164,12 +175,13 @@ def main():
 
 ARGS = argparse.ArgumentParser(description='Github Trending')
 ARGS.add_argument('-q', '--qtype', dest='qtype', default=0, action='store', type=int,
-                  help='Setting the query type, 0 for repository, 1 for developers')
+                  help='Setting the query type, 0 for repository, 1 for developers. Default is repository.')
 ARGS.add_argument('-s', '--since', dest='since', default='today', action='store', type=str,
-                  help='Setting the since today/weekly/monthly')
-ARGS.add_argument('-l', '--lang', dest='lang', action='store', type=str, help='Specity language')
-ARGS.add_argument('-j', '--json', dest='json', action='store_true', help='JSON output format')
+                  help='Setting the since type, options: today/weekly/monthly. Default is today.')
+ARGS.add_argument('-l', '--lang', dest='lang', action='store', type=str,
+                  help='Specity the language. javascript, python, swift, etc...')
+ARGS.add_argument('-j', '--json', dest='json',
+                  action='store_true', help='JSON output format')
 ARGS.set_defaults(json=False)
 if __name__ == '__main__':
     main()
-    
