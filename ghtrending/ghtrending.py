@@ -13,7 +13,7 @@ if sys.version > '3':
 else:
     from urlparse import urljoin
 
-GHTRENDING_ROOT_URL = 'http://github.com/trending/'
+GHTRENDING_ROOT_URL = 'https://github.com/trending/'
 GHTRENDING_SINCE = {'today', 'weekly', 'monthly'}
 GHTRENDING_QTYPE = ['', 'developers/']
 
@@ -57,16 +57,20 @@ class GHRepo(object):
             html, './/svg[contains(@aria-label, "fork")]/parent::node()/text()').strip()
         self.lang = _xpath_textornull(
             html, './/span[@itemprop="programmingLanguage"]/text()').strip()
+        self.link = 'https://github.com/' + _xpath_textornull(
+            html, './/div[contains(@class,"d-inline-block")]/h3/a/@href').strip()
         self.built = html.xpath('.//a[@class="no-underline"]/img/@alt')
 
     def __str__(self):
         description = ""
-        description += "* 🌍 No.{} {} ({})".format(self.index,
+        description += "* 🏆 No.{} {} ({})".format(self.index,
                                                   self.name[1:], self.today)
         description += "\n"
-        description += "* 🌟 star: {} \t🍴 fork: {}".format(self.star, self.fork)
+        description += "* 🌟 star: {} \t🎯 fork: {}".format(self.star, self.fork)
         description += "\n"
-        description += "* 📚 desc: {}".format(self.desc)
+        description += "* 📖 desc: {}".format(self.desc)
+        description += "\n"
+        description += "* 🔗 link: {}".format(self.link)
         description += "\n"
         description += "* 👄 lang: {}".format(self.lang)
         description += "\n"
@@ -89,14 +93,18 @@ class GHUser(object):
             html, './/span[contains(@class, "repo-snipit-name")]/span/text()').strip()
         self.desc = _xpath_textornull(
             html, './/span[contains(@class, "repo-snipit-description")]/text()').strip()
+        self.link = 'https://github.com/' + _xpath_textornull(
+            html, './/h2[@class="f3 text-normal"]/a/@href').strip()
 
     def __str__(self):
         description = ""
-        description += "* 🌍 No.{} {}".format(self.index, self.name)
+        description += "* 🏆 No.{} {}".format(self.index, self.name)
         description += "\n"
         description += "* 📦 repo: {}".format(self.repo)
         description += "\n"
-        description += "* 📚 desc: {}".format(self.desc)
+        description += "* 🔗 link: {}".format(self.link)
+        description += "\n"
+        description += "* 📖 desc: {}".format(self.desc)
         return description
 
     @property
@@ -180,13 +188,13 @@ def main():
 
 ARGS = argparse.ArgumentParser(description='Github Trending')
 ARGS.add_argument('-q', '--qtype', dest='qtype', default=0, action='store', type=int,
-                  help='Setting the query type, 0 for repository, 1 for developers. Default is repository.')
+                  help='Setting the query type, options: 0 for repository, 1 for developers. Default is repository.')
 ARGS.add_argument('-s', '--since', dest='since', default='today', action='store', type=str,
                   help='Setting the since type, options: today/weekly/monthly. Default is today.')
 ARGS.add_argument('-l', '--lang', dest='lang', action='store', type=str,
-                  help='Specify the programming language. javascript, python, swift, etc...')
+                  help='Specify the programming language. javascript, python, swift, etc. Default is wildcards.')
 ARGS.add_argument('-j', '--json', dest='json',
-                  action='store_true', help='JSON output format')
+                  action='store_true', help='Setting output to JSON format.')
 ARGS.set_defaults(json=False)
 if __name__ == '__main__':
     main()
