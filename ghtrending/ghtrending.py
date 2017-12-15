@@ -7,7 +7,6 @@ import argparse
 
 import requests
 from lxml import etree
-from json import JSONEncoder
 
 if sys.version > '3':
     from urllib.parse import urljoin
@@ -39,7 +38,7 @@ def _xpath_textornull(el, stmt):
     return tags[-1] if len(tags) else 'NULL'
 
 
-class GHEncoder(JSONEncoder):
+class GHEncoder(json.JSONEncoder):
     def default(self, o):
         return o.__dict__
 
