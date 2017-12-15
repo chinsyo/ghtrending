@@ -7,7 +7,7 @@ requires = [
 
 setup(
     name='ghtrending',
-    version='0.1.3',
+    version='0.1.4',
     license='MIT',
     description='Github Trending',
     author='chinsyo',
