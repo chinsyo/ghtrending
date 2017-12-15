@@ -184,7 +184,7 @@ ARGS.add_argument('-q', '--qtype', dest='qtype', default=0, action='store', type
 ARGS.add_argument('-s', '--since', dest='since', default='today', action='store', type=str,
                   help='Setting the since type, options: today/weekly/monthly. Default is today.')
 ARGS.add_argument('-l', '--lang', dest='lang', action='store', type=str,
-                  help='Specity the language. javascript, python, swift, etc...')
+                  help='Specify the programming language. javascript, python, swift, etc...')
 ARGS.add_argument('-j', '--json', dest='json',
                   action='store_true', help='JSON output format')
 ARGS.set_defaults(json=False)
