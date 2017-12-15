@@ -161,7 +161,7 @@ class GHClient(object):
                 _print_separateline()
                 print(r)
         if self.json:
-            print(json.dumps(repos, cls=GHEncoder, indent=4))
+            print(json.dumps(repos, cls=GHEncoder, indent=4, sort_keys=True))
 
     def _parse_trending_developers(self, html):
         developers = html.xpath('//ol[@class="list-style-none"]/li')
@@ -178,7 +178,7 @@ class GHClient(object):
                 _print_separateline()
                 print(u)
         if self.json:
-            print(json.dumps(users, cls=GHEncoder, indent=4))
+            print(json.dumps(users, cls=GHEncoder, indent=4, sort_keys=True))
 
 
 def main():
