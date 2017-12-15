@@ -57,6 +57,7 @@ class GHRepo(object):
             html, './/svg[contains(@aria-label, "fork")]/parent::node()/text()').strip()
         self.lang = _xpath_textornull(
             html, './/span[@itemprop="programmingLanguage"]/text()').strip()
+        self.built = html.xpath('.//a[@class="no-underline"]/img/@alt')
 
     def __str__(self):
         description = ""
@@ -68,6 +69,8 @@ class GHRepo(object):
         description += "* 📚 desc: {}".format(self.desc)
         description += "\n"
         description += "* 👄 lang: {}".format(self.lang)
+        description += "\n"
+        description += "* 👥 built: {}".format(', '.join(self.built))
         return description
 
     @property
