@@ -1,5 +1,7 @@
 # GHTRENDING
 
+![pypi](https://img.shields.io/pypi/v/ghtrending.svg)
+
 ## INTRO
 
 **GHTRENDING** is a commandline tool to view github trending, include developers and repository.
