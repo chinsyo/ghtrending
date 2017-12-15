@@ -28,7 +28,6 @@ headers = {
 def _print_sectiontitle(title):
     _print_separateline('=')
     print(time.strftime('%Y-%m-%d', time.localtime()), title)
-    _print_separateline('=')
 
 
 def _print_separateline(separator='-'):
@@ -37,7 +36,7 @@ def _print_separateline(separator='-'):
 
 def _xpath_textornull(el, stmt):
     tags = el.xpath(stmt)
-    return tags[-1] if len(tags) else '<null>'
+    return tags[-1] if len(tags) else 'NULL'
 
 
 class GHEncoder(JSONEncoder):
