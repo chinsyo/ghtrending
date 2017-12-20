@@ -25,7 +25,7 @@ headers = {
 
 
 def _print_sectiontitle(title):
-    _print_separateline('=')
+    _print_separateline()
     print(time.strftime('%Y-%m-%d', time.localtime()), title)
 
 
