@@ -4,7 +4,7 @@
 
 ## INTRO
 
-**GHTRENDING** is a commandline tool to view github trending, include developers and repository.
+**GHTRENDING** is a commandline tool for explore github trending, include developers and repository.
 
 ![help](./screenshot/help.png)
 ![repository](./screenshot/repository.png)
