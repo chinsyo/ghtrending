@@ -6,10 +6,7 @@
 
 **GHTRENDING** is a commandline tool for explore GitHub trending, includes developers and repository.
 
-![help](./screenshot/help.png)
-![repository](./screenshot/repository.png)
-![developers](./screenshot/developers.png)
-![json](./screenshot/json.png)
+![screenshot](screenshot.svg)
 
 ## INSTALLATION
 ```shell
@@ -23,7 +20,7 @@ git clone https://github.com/chinsyo/ghtrending.git && cd ghtrending
 ## USAGE
 ```shell
 // package (recommend)
-python3 -m ghtrending.ghtrending
+python3 -m ghtrending
 
 // source
 python3 ghtrending/ghtrending.py
