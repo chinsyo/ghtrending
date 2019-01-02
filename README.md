@@ -6,7 +6,9 @@
 
 **GHTRENDING** is a commandline tool for explore GitHub trending, includes developers and repository.
 
-![screenshot](screenshot.svg)
+<p align="center">
+  <img width="600" src="screenshot.svg">
+</p>
 
 ## INSTALLATION
 ```shell
