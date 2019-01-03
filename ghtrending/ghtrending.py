@@ -58,7 +58,7 @@ class GHRepo(object):
             html, './/span[@itemprop="programmingLanguage"]/text()').strip()
         self.link = 'https://github.com/' + _xpath_textornull(
             html, './/div[contains(@class,"d-inline-block")]/h3/a/@href').strip()
-        self.built = html.xpath('.//a[@class="no-underline"]/img/@alt')
+        self.built = html.xpath('.//img[contains(@class,"avatar")]/@alt')
 
     def __str__(self):
         description = ""

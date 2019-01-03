@@ -10,7 +10,7 @@ requires = [
 
 setup(
     name='ghtrending',
-    version='0.1.5rc',
+    version='0.2.0',
     author='chinsyo',
     author_email='chinsyo@sina.cn',
     license='MIT',
